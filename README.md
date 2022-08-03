@@ -1,7 +1,7 @@
 # find-forex-SRs
 This program detects support & resistance zones in historical forex data. It is written to use Dukascopy downloaded data in CSV format.
 
-My first publicly released Python code and my first Github submission. I am obviously not a Python code. Please be gentle!
+My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle!
 
 Testing to verify code:
 
