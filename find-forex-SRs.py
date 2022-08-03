@@ -66,7 +66,7 @@ def process( csv_filename, curr_pair, from_date, to_date, period, min_ht, zone_w
             if curr_date < from_date:
                 continue
             if curr_date > to_date:
-                return
+                break
                 
             curr_close= float( row[ 4 ] )
             bars.append( ( curr_date, curr_close ) )
