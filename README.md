@@ -1,7 +1,9 @@
-# find-forex-SRs
-This program detects support & resistance zones in historical forex data. It is written to use Dukascopy downloaded data in CSV format.
+# find-SRs
+This program detects support & resistance zones in historical [forex] data. It is written to use data from Dukascopy in CSV format.
 
-My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle!
+My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle.
+
+And please improve this program!!!
 
 Testing to verify code:
 
@@ -39,4 +41,4 @@ Extract of that output file:
   1.353
   1.37764
 
-(This represents a "feature" that should probably be eliminated: SR data for 2023-01-02 from historical data ending in 2022-07-29 is inappropriate.)
+(This represents a "feature" that should probably be eliminated: I ran it using historical data ending in 2022-07-29, so it really shouldn't calculate SR zones for 2023-01-02)
