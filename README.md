@@ -1,5 +1,5 @@
 # find-SRs
-This program detects support & resistance zones in historical [forex] data. It's project of the reddit r/algotrading community. It's intended purpose is to facilitate backtesting of strategies: either to exploit S&R zones, or to avoid trading near them.
+This program detects support & resistance zones in historical [forex] data. It's a project of the reddit r/algotrading community. It's intended purpose is to facilitate backtesting of strategies: either to exploit S&R zones, or to avoid trading near them.
 
 My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle.
 
@@ -24,6 +24,7 @@ Extract of that output file:
   1.3513
   1.353
   1.37764
+  
   date: 2023-01-01
   1.33937
   1.3472
@@ -32,6 +33,7 @@ Extract of that output file:
   1.3513
   1.353
   1.37764
+  
   date: 2023-01-02
   1.33937
   1.3472
