@@ -1,9 +1,7 @@
 # find-SRs
-This program detects support & resistance zones in historical [forex] data. It is written to use data from Dukascopy in CSV format.
+This program detects support & resistance zones in historical [forex] data. It's project of the reddit r/algotrading community. It's intended purpose is to facilitate backtesting of strategies: either to exploit S&R zones, or to avoid trading near them.
 
 My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle.
-
-And please improve this program!!!
 
 Testing to verify code:
 
