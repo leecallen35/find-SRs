@@ -5,6 +5,8 @@ My first publicly released Python code and my first Github submission. I am obvi
 
 The program is written to use the Dukascopy download CSV format. Since it's Python it can be easily modified to use any other format, all it needs is date (or date/time depending on the timeframe of SR zones you want to create) and closing price.
 
+Usage suggestion: If testing a strategy to trade S&R zones, use 'conservative' parameters to produce a smaller list of high probability zones. I.e., higher values of min_ht and min_touches and narrow zones. If testing a strategy to *avoid* trading in S&R zones, use 'aggressive' parameters to produce a larger list of zones.
+
 Testing to verify code:
 
 Run with the provided EURCAD test file as input.
