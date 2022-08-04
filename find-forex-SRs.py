@@ -5,10 +5,10 @@
 
 Algorithm:
 On for example a 4H chart:
-1. create a list of local maxima & minima
-2. identify *clusters* of maxima / minima using kmeans clustering, these are candidate zones
-3. count the number of hits = bounces = maxima/minima for each candidate zones
-4. keep the N zones with the most hits
+1. Create a list of local maxima & minima (price inflections).
+2. Identify *clusters* of maxima / minima using kmeans clustering. These are candidate zones.
+3. Count the number of maxima / minima within range of each candidate zones.
+4. Keep the zones that have at least N hits. Also keep maximum & minimum price during the period.
 
 parameters:
 --csvfile	File containing OHLC data -- only C (closes) are used
