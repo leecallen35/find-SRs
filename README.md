@@ -3,6 +3,8 @@ This program detects support & resistance zones in historical [forex] data. It's
 
 My first publicly released Python code and my first Github submission. I am obviously not a Python coder. Please be gentle.
 
+The program is written to use the Dukascopy download CSV format. Since it's Python it can be easily modified to use any other format, all it needs is date (or date/time depending on the timeframe of SR zones you want to create) and closing price.
+
 Testing to verify code:
 
 Run with the provided EURCAD test file as input.
