@@ -30,11 +30,12 @@ import argparse
 import csv
 import datetime
 import pickle
+from typing import Callable
 
 import pytz
 from dateutil.parser import parse as parse_date
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering
 
 
 def save_zones(curr_pair, period_zones_d):
@@ -46,7 +47,8 @@ def save_zones(curr_pair, period_zones_d):
         pickle.dump(period_zones_d, pickle_file, pickle.HIGHEST_PROTOCOL)
 
 
-def cluster_zones_kmeans(extrema, from_date, to_date, min_touches, period, zone_width):
+def cluster_zones(extrema, from_date, to_date, min_touches, period, zone_width,
+                  cluster_func: Callable[[list[float]],list[float]]):
     #
     # dictionary period_zones_d will contain one item per date, with date as key,
     # and a list of zones *relevant* for that date,
@@ -79,12 +81,7 @@ def cluster_zones_kmeans(extrema, from_date, to_date, min_touches, period, zone_
         #
         # find clusters of minima/maxima, these are candidate SR zones
         #
-        values_a = np.asarray(values_l, dtype=float).reshape(-1, 1)
-        n_clusters = 16
-        kmeans = KMeans(n_clusters=n_clusters).fit(values_a)
-        # convert to list
-        # noinspection PyUnresolvedReferences,PyTypeChecker
-        clusters_l: list = np.reshape(kmeans.cluster_centers_, -1).tolist()
+        clusters_l = cluster_sk(values_l, cluster_func)
 
         #
         # now count the bounces for each cluster - the number of minima/maxima within range (one-half zone_width) of the cluster
@@ -118,6 +115,17 @@ def cluster_zones_kmeans(extrema, from_date, to_date, min_touches, period, zone_
         else:
             period_zones_d[curr_date + datetime.timedelta(days=1)] = zones_l2
     return period_zones_d
+
+
+def cluster_sk(values_l, cluster_func):
+    values_a = np.asarray(values_l, dtype=float).reshape(-1, 1)
+    fit = cluster_func(n_clusters=args.n_clusters).fit(values_a)
+    clusters = [[] for _ in range(args.n_clusters)]
+    for v, c in zip(values_l, np.reshape(fit.labels_, -1)):
+        clusters[c].append(v)
+    centering = np.mean if args.centering == 'mean' else np.median
+    centers = [centering(c) for c in clusters]
+    return centers
 
 
 def zones_to_levels(period_zones_d):
@@ -267,6 +275,9 @@ def parse_args():
 								 help='Min number of touches for each SR zone' )
     parser.add_argument( '--plot',        action='store_true',
                                  help='Produce pyplot of prices and SR levels')
+    parser.add_argument( '--clustering',  choices=['kmeans','hier','hierarchical'], default='hier')
+    parser.add_argument( '--n_clusters', action='store', type=int, required=False, default=16)
+    parser.add_argument( '--centering', choices=['mean','median'], default='median')
 
     return parser.parse_args()
 
@@ -293,7 +304,11 @@ def main():
     #
     bars = load_dukascopy(args.csv_filename, args.fromdate, args.todate)
     extrema = find_extrema(bars, args.min_ht)
-    period_zones_d = cluster_zones_kmeans(extrema, args.fromdate, args.todate, args.min_touches, args.period, args.zone_width)
+    cluster_func = {
+        'kmeans': KMeans, 'hier': AgglomerativeClustering, 'hierarchical': AgglomerativeClustering,
+    }[args.clustering]
+    period_zones_d = cluster_zones(extrema, args.fromdate, args.todate, args.min_touches, args.period, args.zone_width,
+                                   cluster_func)
     save_zones(pair_name, period_zones_d)
     if args.plot:
         from matplotlib import pyplot as plt
